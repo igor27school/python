@@ -34,11 +34,9 @@ def number_numbers(length_number, limits):
     return value
 
 def run():
-    import time
     LENGTH_NUMBER = 18
     NUMBER_DIGITS = 10
     MAX_DIGITS = 3
-    start_time = time.time()
     # At the beginning, any number except 0 can be used
     # After a digit (say 1) is in the first spot, there is one number that
     # can be used at most 2 times and there are 9 numbers that can be used
@@ -50,8 +48,10 @@ def run():
     # Since the first digit can be anything but zero, the multiplier is 9
     answer = (NUMBER_DIGITS - 1) * number_numbers(LENGTH_NUMBER-1, limits)
     print "The answer is %d" % answer
-    print time.time() - start_time, "seconds"
 
 
 if __name__ == '__main__':
+    import time
+    start_time = time.time()
     run()
+    print time.time() - start_time, "seconds"
