@@ -4,52 +4,39 @@ Created on Dec 15, 2012
 @author: Igor
 '''
 
-MAX = 10000
-undiscovered_numbers = range(1, MAX+1)
-undiscovered_numbers.remove(9999)
-dict = {9999:1111333355557778}
+BASE = 3
+# For the given n, find the smallest tri-base representation
+# for every remainer mod n
+def f(n):
+    if(n < BASE):
+        return 1
+    dic = {}
+    for i in xrange(1, BASE):
+        dic[i] = i
+    known_remainders = list(reversed(range(1, BASE)))
+    while known_remainders:
+        x = known_remainders.pop()
+        x *= 10
+        for j in xrange(BASE):
+            if (x+j) % n == 0:
+                return (x+j) / n
+            elif (x+j) % n not in dic:
+                dic[(x+j) % n] = x+j
+                known_remainders.insert(0, x+j)
+    raise Exception
 
-# The less numbers we have left, the less we iterate
-def crossout_numbers(number):
-    # Can't remove numbers while iterating, remember them
-    list_remove = []
-    for n in undiscovered_numbers:
-        if number % n == 0:
-            list_remove.append(n)
-            dict[n] = number / n
-    # Remove numbers from the list because we found their value
-    for n in list_remove:
-        # Also use f(10*n) = f(n)
-        counter = n
-        while counter in undiscovered_numbers:
-            undiscovered_numbers.remove(counter)
-            dict[counter] = dict[n]
-            counter *= 10
-
-def to_base(n, base):
-    answer = 0
-    mult = 1
-    while (n > 0):
-        answer += mult * (n % base)
-        n //= base
-        mult *= 10
-    return answer
-
-def fill_dict():
-    BASE = 3
-    i=1
-    while undiscovered_numbers and i < 3**16:
-        n = to_base(i, BASE)
-        crossout_numbers(n)
-        i += 1
 
 def run():
-    fill_dict()
-    answer = sum(dict.values())
-    print "The sum is %d" % answer
+    MAX = 10000
+    sum = 0
+    for i in xrange(1, MAX+1):
+        number = f(i)
+        sum += number
+    print "The sum is %d" % sum
 
 if __name__ == '__main__':
     import time
     start_time = time.time()
     run()
     print time.time() - start_time, "seconds"
+
