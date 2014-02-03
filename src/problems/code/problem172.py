@@ -49,7 +49,6 @@ def run():
     answer = (NUMBER_DIGITS - 1) * number_numbers(LENGTH_NUMBER-1, limits)
     print "The answer is %d" % answer
 
-
 if __name__ == '__main__':
     import time
     start_time = time.time()
